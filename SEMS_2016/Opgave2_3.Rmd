@@ -1,0 +1,30 @@
+---
+title: "Opgave2_3"
+author: "Kasper"
+date: "6/11/2016"
+output: html_document
+runtime: shiny
+---
+
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, results='hide'}
+library(googlesheets)
+key <- gs_key('1aTWvbHWFlXjosCXkHmUhf6y1EMAsD5kQFiGccSp53_I')
+data1_2 <-gs_read(key,col_names=T)
+
+```
+
+## Opgave 2.3
+Prøv forskellige delinger i histogrammet
+```{r,echo=FALSE}
+inputPanel(
+sliderInput('breaks','Antal breaks i histogrammet:',min = 1,max = 24,value = 5)
+  )
+renderPlot({
+
+  hist(data1_2$vægt,breaks = input$breaks,probability = TRUE)
+  d <- density(data1_2$vægt)
+  lines(d,col='blue')
+
+})
+```

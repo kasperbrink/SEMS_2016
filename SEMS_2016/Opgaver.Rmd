@@ -1,0 +1,132 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Dette er en R Notebook med løsninger til opgaver på kurset SEMS, efterår 2016. Det er meningen at vise at man kan integrere beregninger, tekst og figurer i ét dokument, for 100% reproducerbare resultater.
+
+## Opgave 1.2
+### a) Load af data
+
+Indlæser data, fra GoogleSheets for at ikke at være afhængig af lokale data. Kræver googlesheets pakken.
+```{r, echo=TRUE, message=FALSE, warning=FALSE, results='hide'}
+library(googlesheets)
+library(shiny)
+key <- gs_key('1aTWvbHWFlXjosCXkHmUhf6y1EMAsD5kQFiGccSp53_I')
+data1_2 <-gs_read(key,col_names=T)
+
+```
+Viser de første 6 rækker af de indlæste data.
+```{r}
+head(data1_2)
+```
+### b) Summary measures
+```{r}
+fv <- data1_2$vægt
+mean(fv)
+min(fv)
+max(fv)
+median(fv)
+```
+```{r}
+sort(fv)
+sweight <- sort(fv)
+length(sweight)
+(sweight[12]+sweight[13])/2
+```
+Det ses at medianen er beregnet som gennemsnittet af de to midterste observationer.
+
+### d)
+```{r}
+summary(fv)
+```
+### e) Varians og spredning
+
+```{r}
+sd(fv)
+var(fv)
+sd(fv)^2
+```
+$$sd=\sqrt{var}$$
+
+### f) Plots
+
+```{r}
+hist(fv)
+boxplot(fv)
+```
+### g) Fødseslvægt i kg
+```{r}
+fvkg <- fv/1000
+sd(fvkg)
+sd(fv)/1000
+var(fvkg)
+```
+
+## Opgave 2.1
+### a) Subsetting
+```{r}
+fv[1:5]
+fv[-8]
+```
+
+### b) Logik
+```{r}
+fv>3200
+fv[fv > 3200]
+```
+
+## Opgave 2.2
+### a) Missing values
+
+```{r}
+fv[8] <- NA
+fv
+```
+
+### b)
+
+```{r}
+x=NA
+x+5
+```
+
+### c)
+```{r}
+sum(fv)
+```
+### d)
+```{r}
+notmiss <- !is.na(fv)
+notmiss
+```
+
+### e)
+```{r}
+fv[notmiss]
+```
+
+### f)
+```{r}
+mean(fv,na.rm = TRUE)
+mean(fv[notmiss])
+```
+
+## Opgave 
+
+<!-- ## Opgave 2.3 -->
+<!-- Prøv forskellige delinger i histogrammet -->
+<!-- ```{r,echo=FALSE} -->
+<!-- inputPanel( -->
+<!-- sliderInput('breaks','Antal breaks i histogrammet:',min = 1,max = 24,value = 5) -->
+<!--   ) -->
+<!-- renderPlot({ -->
+
+<!--   hist(data1_2$vægt,breaks = input$breaks,probability = TRUE) -->
+<!--   d <- density(data1_2$vægt) -->
+<!--   lines(d,col='blue') -->
+
+<!-- }) -->
+<!-- ``` -->
+
+
+
